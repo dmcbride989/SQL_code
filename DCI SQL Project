@@ -1,0 +1,41 @@
+Business Question 1: Top Salaries
+
+--Top Salaries by Department
+Select Distinct department_name,
+Max(salary) Over(partition by department_name) as Top_Salary
+from hr.employees
+--Joined Departments and Jobs tables to get job title and department name
+join hr.departments on hr.employees.department_id=hr.departments.department_id
+join hr.jobs on hr.employees.job_id=hr.jobs.job_id
+Order By Top_Salary Desc;
+
+--Additional Salary Information
+SELECT first_name, last_name, job_title, salary,department_name
+from hr.employees
+--Joined Departments and Jobs tables to get job title and department name
+join hr.departments on hr.employees.department_id=hr.departments.department_id
+join hr.jobs on hr.employees.job_id=hr.jobs.job_id
+order by department_name ASC, salary DESC;
+
+Business Question 2: Direct Reports
+
+--Business Question: Which manager has the most employees report to them?
+--Combined first & last names to output employee and manager full name
+SELECT  (e.first_name)||' '|| e.last_name as employee,
+        (m.first_name)||' '|| m.last_name as manager
+FROM    hr.employees e
+--Performed self join on employees table
+LEFT JOIN hr.employees m ON m.employee_id = e.manager_id
+ORDER BY  manager desc;
+
+
+Business Question 3: 
+
+SELECT  employee_id, first_name, last_name, email, phone_number, hire_date 
+,hr.jobs.job_title, salary,hr.departments.department_name 
+from hr.employees e --Provided employees table with alias
+--Joined Departments and Jobs tables to get job title and department name
+join hr.departments on e.department_id=hr.departments.department_id
+join hr.jobs on e.job_id=hr.jobs.job_id
+order by hire_date asc;
+
